@@ -1,9 +1,6 @@
 package pl.bartekficek.video_app;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,6 +29,11 @@ public class VideotapeApi {
     public Videotape getVideotapeById(@RequestParam int id){
         Optional<Videotape> first = videotapes.stream().filter(tape -> tape.getId() == id).findFirst();
         return first.get();
+    }
+
+    @PostMapping("/add")
+    public boolean addVideotape(@RequestBody Videotape videotape){
+        return videotapes.add(videotape);
     }
 
 }
