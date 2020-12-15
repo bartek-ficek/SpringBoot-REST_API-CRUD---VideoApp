@@ -1,51 +1,53 @@
 package pl.bartekficek.video_app.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bartekficek.video_app.dao.entity.Videotape;
+import pl.bartekficek.video_app.manager.VideotapeManager;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/videotapes")
 public class VideotapeApi {
 
-    private List<Videotape> videotapes;
+    private VideotapeManager videotapeManager;
 
-    public VideotapeApi() {
-        videotapes = new ArrayList<>();
-        videotapes.add(new Videotape(1L, "Titanic", LocalDate.of(1995, 1, 1)));
-        videotapes.add(new Videotape(2L, "Matrix", LocalDate.of(2000, 3, 5)));
-        videotapes.add(new Videotape(3L, "Shrek", LocalDate.of(2005, 12, 7)));
+    @Autowired
+    public VideotapeApi(VideotapeManager videotapeManager) {
+        this.videotapeManager = videotapeManager;
     }
 
     @GetMapping("/all")
-    public List<Videotape> getAllVideotapes() {
-        return videotapes;
+    public Iterable<Videotape> getAllVideotapes() {
+        return videotapeManager.findAllVideotapes();
     }
 
     @GetMapping
-    public Videotape getVideotapeById(@RequestParam int id) {
-        Optional<Videotape> first = videotapes.stream().filter(tape -> tape.getId() == id).findFirst();
-        return first.get();
+    public Optional<Videotape> getVideotapeById(@RequestParam Long id) {
+        return videotapeManager.findVideotapeById(id);
     }
 
     @PostMapping("/add")
-    public boolean addVideotape(@RequestBody Videotape videotape) {
-        return videotapes.add(videotape);
+    public Videotape addVideotape(@RequestBody Videotape videotape) {
+        return videotapeManager.saveVideotape(videotape);
     }
 
     @PutMapping("/update")
-    public void updateVideotape(@RequestParam int id, @RequestBody Videotape videotape) {
-        Videotape videotapeNewData = videotapes.stream().filter(tape -> tape.getId() == id).findFirst().get();
-        videotapeNewData.setProductionYear(videotape.getProductionYear());
-        videotapeNewData.setTitle(videotape.getTitle());
+    public void updateVideotape(@RequestParam Long id, @RequestBody Videotape videotape) {
+        Optional<Videotape> videotapeById = videotapeManager.findVideotapeById(id);
+        videotapeById.ifPresent(oldDataVideotape -> oldDataVideotape.setProductionYear(videotape.getProductionYear()));
+        videotapeById.ifPresent(oldDataVideotape -> oldDataVideotape.setTitle(videotape.getTitle()));
+        videotapeManager.saveVideotape(vid)
+
+
+//        Videotape videotapeNewData = videotapes.stream().filter(tape -> tape.getId() == id).findFirst().get();
+//        videotapeNewData.setProductionYear(videotape.getProductionYear());
+//        videotapeNewData.setTitle(videotape.getTitle());
     }
 
     @DeleteMapping("/delete")
-    public boolean deleteVideotape(@RequestParam int id) {
-        return videotapes.removeIf(videotape -> videotape.getId() == id);
+    public void deleteVideotape(@RequestParam Long id) {
+        videotapeManager.deleteVideotape(id);
     }
 }
