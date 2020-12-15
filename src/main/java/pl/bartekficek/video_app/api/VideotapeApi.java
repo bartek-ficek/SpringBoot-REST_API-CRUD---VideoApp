@@ -1,6 +1,7 @@
-package pl.bartekficek.video_app;
+package pl.bartekficek.video_app.api;
 
 import org.springframework.web.bind.annotation.*;
+import pl.bartekficek.video_app.dao.entity.Videotape;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

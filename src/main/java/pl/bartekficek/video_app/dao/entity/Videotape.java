@@ -1,7 +1,12 @@
-package pl.bartekficek.video_app;
+package pl.bartekficek.video_app.dao.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class Videotape {
 
     private Long id;
@@ -17,6 +22,8 @@ public class Videotape {
         this.productionYear = productionYear;
     }
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     public Long getId() {
         return id;
     }
