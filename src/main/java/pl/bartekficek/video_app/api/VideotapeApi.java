@@ -38,7 +38,7 @@ public class VideotapeApi {
         Optional<Videotape> videotapeById = videotapeManager.findVideotapeById(id);
         videotapeById.ifPresent(oldDataVideotape -> oldDataVideotape.setProductionYear(videotape.getProductionYear()));
         videotapeById.ifPresent(oldDataVideotape -> oldDataVideotape.setTitle(videotape.getTitle()));
-        videotapeManager.saveVideotape(vid)
+        videotapeManager.saveVideotape(videotapeById.get());
 
 
 //        Videotape videotapeNewData = videotapes.stream().filter(tape -> tape.getId() == id).findFirst().get();
