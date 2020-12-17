@@ -39,11 +39,6 @@ public class VideotapeApi {
         videotapeById.ifPresent(oldDataVideotape -> oldDataVideotape.setProductionYear(videotape.getProductionYear()));
         videotapeById.ifPresent(oldDataVideotape -> oldDataVideotape.setTitle(videotape.getTitle()));
         videotapeManager.saveVideotape(videotapeById.get());
-
-
-//        Videotape videotapeNewData = videotapes.stream().filter(tape -> tape.getId() == id).findFirst().get();
-//        videotapeNewData.setProductionYear(videotape.getProductionYear());
-//        videotapeNewData.setTitle(videotape.getTitle());
     }
 
     @DeleteMapping("/delete")
